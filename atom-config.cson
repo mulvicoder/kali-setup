@@ -1,0 +1,23 @@
+"*":
+  core:
+    audioBeep: false
+    telemetryConsent: "no"
+    themes: [
+      "one-dark-ui"
+      "atom-dark-syntax"
+    ]
+  editor:
+    autoIndentOnPaste: false
+    softWrap: true
+    softWrapHangingIndent: 2
+    tabLength: 4
+    tabType: "soft"
+  "ide-python":
+    pylsPlugins:
+      flake8:
+        enabled: true
+      pydocstyle:
+        enabled: true
+      rope_completion:
+        enabled: true
+    python: "/usr/bin/python3"
