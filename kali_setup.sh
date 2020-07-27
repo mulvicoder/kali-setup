@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$EUID" -e 0  ]
+if [ "$EUID" -eq 0  ]
     then {
         echo "Do not run this script with \"sudo\""
         exit 0
