@@ -11,12 +11,12 @@ fi
 if [ ! -f /usr/sbin/xrdp ]
     then {
         echo "Cloning linux-vm-tools"
-        git clone -q https://github.com/mimura1133/linux-vm-tools
+        git clone https://github.com/mimura1133/linux-vm-tools
         echo "Changing permissions on install.sh"
         chmod 555 linux-vm-tools/kali/2020.x/install.sh
 
         echo "Installing linux-vm-tools"
-        ./linux-vm-tools/kali/2020.x/install.sh > /dev/null
+        ./linux-vm-tools/kali/2020.x/install.sh
     }
 fi
 
@@ -35,39 +35,39 @@ if [ ! -f /usr/bin/atom ]
         echo "installing Atom"
         wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | apt-key add -
         sh -c 'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list'
-        apt-get update -q && apt-get install -q atom -y
+        apt-get update && apt-get install atom -y
         test -e /usr/bin/atom && {
-            cat atom-config.cson > ~/.atom/config.cson
+            cat atom-config.cson > /home/$USER/.atom/config.cson
             echo "...done"
             echo "Installing Atom plugin: atom-ide-ui"
-            apm install -q atom-ide-ui
+            apm install atom-ide-ui
             echo "...done"
 
             echo "Installing Python Language Server"
-            apt-get install -q python-pip python3-pip
+            apt-get install python-pip python3-pip
             echo "export PATH=\"/home/deadbeef/.local/bin:\$PATH\"" >> .zshrc
             export PATH="/home/deadbeef/.local/bin:$PATH"
             echo "...done"
 
             echo "Installing Atom plugin: ide-python"
-            apm install -q ide-python
+            apm install ide-python
             echo "...done"
 
             echo "Intsalling CMake"
-            apt-get install -q cmake -y
+            apt-get install cmake -y
             echo "...done"
 
             echo "Installing CCLS"
-            apt-get install -q ccls
+            apt-get install ccls
             echo "...done"
 
             echo "Installing Atom plugin: ide-c-cpp"
-            apm install -q ide-c-cpp
+            apm install  ide-c-cpp
             echo "...done"
 
             echo "Installing Atom plugin: pp and pp-markdown"
-            apm install -q pp
-            apm install -q pp-markdown
+            apm install pp
+            apm install pp-markdown
             echo "...done"
         } || echo "Atom did not install"
     }
@@ -80,7 +80,7 @@ fi
 echo "Installing Ghidra"
 
 echo "First the JDK..."
-apt install -q default-jdk -y
+apt install default-jdk -y
 
 echo "Now Ghidra..."
 if [ ! -f /usr/bin/ghidra ]
@@ -90,7 +90,7 @@ if [ ! -f /usr/bin/ghidra ]
             then echo "Error: could not find ghidra to download"
         fi
 
-        if [ ! -z "$GHIDRA"]
+        if [ ! -z "$GHIDRA" ]
             then {
                 export GHIDRADIR=`echo $GHIDRA | sed 's/_20[12][0-9].*//'`
                 wget -c https://www.ghidra-sre.org/$GHIDRA
