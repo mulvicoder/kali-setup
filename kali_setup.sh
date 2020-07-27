@@ -105,7 +105,7 @@ if [ ! -f /usr/bin/ghidra ]
                 wget -c https://www.ghidra-sre.org/$GHIDRA
                 unzip "$GHIDRA" > /dev/null
                 sudo mv $GHIDRADIR /usr/lib/ghidra
-                ln -s -T /usr/lib/ghidra/ghidraRun /usr/bin/ghidra
+                sudo ln -s -T /usr/lib/ghidra/ghidraRun /usr/bin/ghidra
                 rm $GHIDRA
                 echo "...done"
             }
