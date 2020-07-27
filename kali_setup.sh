@@ -1,7 +1,14 @@
 #!/bin/bash
 
+if [ "$EUID" -e 0  ]
+    then {
+        echo "Do not run this script with \"sudo\""
+        exit 0
+    }
+fi
+
 # Install linux-vm-tools
-if [-f /usr/sbin/xrdp]
+if [ -f /usr/sbin/xrdp ]
     then echo "xrdp has been installed already. Skipping..."
 fi
 
