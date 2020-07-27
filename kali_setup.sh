@@ -72,9 +72,10 @@ if [ ! -f /usr/bin/atom ]
             apm install pp
             apm install pp-markdown
             echo "...done"
-            
+
             if [ ! -e /home/$USER/.atom/config.cson ]
                 then touch /home/$USER/.atom/config.cson
+            fi
             cat atom-config.cson > /home/$USER/.atom/config.cson
         } || echo "Atom did not install"
     }
