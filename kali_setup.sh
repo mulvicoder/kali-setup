@@ -41,7 +41,6 @@ if [ ! -f /usr/bin/atom ]
         sudo sh -c 'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list'
         sudo apt-get update && sudo apt-get install atom -y
         test -e /usr/bin/atom && {
-            cat atom-config.cson > /home/$USER/.atom/config.cson
             echo "...done"
             echo "Installing Atom plugin: atom-ide-ui"
             apm install atom-ide-ui
@@ -73,6 +72,10 @@ if [ ! -f /usr/bin/atom ]
             apm install pp
             apm install pp-markdown
             echo "...done"
+            
+            if [ ! -e /home/$USER/.atom/config.cson ]
+                then touch /home/$USER/.atom/config.cson
+            cat atom-config.cson > /home/$USER/.atom/config.cson
         } || echo "Atom did not install"
     }
 fi
