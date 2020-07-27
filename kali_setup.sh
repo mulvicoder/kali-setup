@@ -1,13 +1,10 @@
 #!/bin/bash
 
-if [ "$EUID" -ne 0  ]
-    then {
-        echo "What the hell are you doing?? Run this script with \"sudo\", you fool!"
-        exit 0
-    }
+# Install linux-vm-tools
+if [-f /usr/sbin/xrdp]
+    then echo "xrdp has been installed already. Skipping..."
 fi
 
-# Install linux-vm-tools
 if [ ! -f /usr/sbin/xrdp ]
     then {
         echo "Cloning linux-vm-tools"
@@ -20,22 +17,22 @@ if [ ! -f /usr/sbin/xrdp ]
     }
 fi
 
-if [-f /usr/sbin/xrdp]
-    then echo "xrdp has been installed already. Skipping..."
-fi
-
 # Install Oh-My-Zsh
 
 echo "Installing Oh-My-Zsh"
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sudo sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # Install Atom
+if [ -f /usr/bin/atom ]
+    then echo "Atom was already installed. Skipping..."
+fi
+
 if [ ! -f /usr/bin/atom ]
     then {
         echo "installing Atom"
-        wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | apt-key add -
-        sh -c 'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list'
-        apt-get update && apt-get install atom -y
+        wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | sudo apt-key add -
+        sudo sh -c 'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list'
+        sudo apt-get update && sudo apt-get install atom -y
         test -e /usr/bin/atom && {
             cat atom-config.cson > /home/$USER/.atom/config.cson
             echo "...done"
@@ -44,7 +41,7 @@ if [ ! -f /usr/bin/atom ]
             echo "...done"
 
             echo "Installing Python Language Server"
-            apt-get install python-pip python3-pip
+            sudo apt-get install -y python-pip python3-pip
             echo "export PATH=\"/home/deadbeef/.local/bin:\$PATH\"" >> .zshrc
             export PATH="/home/deadbeef/.local/bin:$PATH"
             echo "...done"
@@ -54,11 +51,11 @@ if [ ! -f /usr/bin/atom ]
             echo "...done"
 
             echo "Intsalling CMake"
-            apt-get install cmake -y
+            sudo apt-get install cmake -y
             echo "...done"
 
             echo "Installing CCLS"
-            apt-get install ccls
+            sudo apt-get install ccls
             echo "...done"
 
             echo "Installing Atom plugin: ide-c-cpp"
@@ -73,16 +70,17 @@ if [ ! -f /usr/bin/atom ]
     }
 fi
 
-if [ -f /usr/bin/atom ]
-    then echo "Atom was already installed. Skipping..."
-fi
-
 echo "Installing Ghidra"
 
 echo "First the JDK..."
 apt install default-jdk -y
 
 echo "Now Ghidra..."
+
+if [ -f /usr/bin/ghidra ]
+    then echo "Ghidra was already installed. Skipping..."
+fi
+
 if [ ! -f /usr/bin/ghidra ]
     then {
         export GHIDRA=`wget -qO - https://www.ghidra-sre.org | grep 'Download Ghidra' | sed 's/.*href=.//' | sed 's/".*//'`
@@ -95,15 +93,11 @@ if [ ! -f /usr/bin/ghidra ]
                 export GHIDRADIR=`echo $GHIDRA | sed 's/_20[12][0-9].*//'`
                 wget -c https://www.ghidra-sre.org/$GHIDRA
                 unzip "$GHIDRA" > /dev/null
-                mv $GHIDRADIR /usr/lib/ghidra
+                sudo mv $GHIDRADIR /usr/lib/ghidra
                 ln -s -T /usr/lib/ghidra/ghidraRun /usr/bin/ghidra
                 rm $GHIDRA
                 echo "...done"
             }
         fi
     }
-fi
-
-if [ -f /usr/bin/ghidra ]
-    then echo "Ghidra was already installed. Skipping..."
 fi
