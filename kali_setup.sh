@@ -84,7 +84,7 @@ fi
 echo "Installing Ghidra"
 
 echo "First the JDK..."
-apt install default-jdk -y
+sudo apt-get install default-jdk -y
 
 echo "Now Ghidra..."
 
